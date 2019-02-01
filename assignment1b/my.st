@@ -1,4 +1,6 @@
-
+"-------------------------------------------------------"
+! Object methods !
+s
   "Return self as a string."
   ^self printString !
 
@@ -154,3 +156,26 @@ goodVisit
     "
     w visit:[:a| a oo] 
 !!
+
+Magic sub #Num
+
+! Num methods !
+
+num: txt
+  x := Dictionary new.
+  x at: n put: 0;
+    at: 'mu' put: 0;
+    at: 'm2' put: 0;
+    at: 'sd' put: 0;
+    at: 'id' put: id;
+    at: 'lo' put: (10 raisedTo: 32);
+    at: 'txt' put: txt; 
+    at: 'w' put: 1
+  ^x
+  !
+numInc: t, x, d
+  x = '?' ifTrue: [^x]
+  t at: 'n' put: ((t at: 'n') + 1)
+  d := x - (t at: 'mu')
+  
+!
