@@ -1,15 +1,15 @@
 Magic sub: #Num has: 'n mu m2 sd id lo hi txt w'
 
-  ! Num methods !
+! Num methods !
 
   num: txt
-    n := 0.
-    mu := 0.
-    m2 := 0.
-    sd := 0.
-    id := id.
-    lo := (10 raisedTo: 32).
-    self txt := txt.
+    self n := 0;
+         mu := 0;
+         m2 := 0;
+         sd := 0;
+         id := id;
+         lo := (10 raisedTo: 32);
+         txt := txt.
     w := 1.
   ! "end num"
   numInc: x d: d
