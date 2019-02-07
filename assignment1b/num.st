@@ -89,4 +89,17 @@ Magic sub: #Num has: 'n mu m2 sd id lo hi txt w'
       1 to: (self size - 1) do: [:i | aBlock value: (self at: i) value: (self at: (i + 1))].
     ! "end b4Now"
 
+    visit: aBlock
+        self do: [:x | x visit: aBlock].
+    !
 !
+
+! String methods !
+    visit: aBlock
+        aBlock value: self.
+!
+
+! Object methods !
+    visit: aBlock
+        aBlock value: self.
+!!

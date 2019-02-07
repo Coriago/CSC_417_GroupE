@@ -14,3 +14,13 @@ num n  oo. "==> 20" !
 
 #(10 21 32 43 54) b4Now: [:b4 :now|
     ((now-b4)/b4) asFloatE oo] !
+
+|x y z w|
+x := (Employee new)  name: 'tammy'.
+y := (Employee new)  name: 'tammy'.
+z := (Employee new)  name: 'Huy'; age: 18.
+
+w := {1. 2. #abc. z. {x. x. x. {y.}.}. 4. {{{5.}.}.}.}.
+    "z visit: [:n| n oo].
+    "
+    w visit:[:a| a oo] 
