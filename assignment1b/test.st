@@ -11,3 +11,6 @@ num mu oo. "==> 7"
 num n  oo. "==> 20" !
 
 (#(1 2 3) eject: [:x | x > 1.5]) oo!
+
+#(10 21 32 43 54) b4Now: [:b4 :now|
+    ((now-b4)/b4) asFloatE oo] !

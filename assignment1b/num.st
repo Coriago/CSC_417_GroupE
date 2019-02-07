@@ -82,5 +82,11 @@ Magic sub: #Num has: 'n mu m2 sd id lo hi txt w'
 
 ! Collection methods !
     eject: aBlock
-        ^self select: [:element | (aBlock value: element) not].
-!!
+      ^self select: [:element | (aBlock value: element) not].
+    ! "end eject"
+    
+    b4Now: aBlock
+      1 to: (self size - 1) do: [:i | aBlock value: (self at: i) value: (self at: (i + 1))].
+    ! "end b4Now"
+
+!
