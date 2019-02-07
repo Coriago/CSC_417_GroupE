@@ -38,7 +38,6 @@ Magic sub: #Num has: 'n mu m2 sd id lo hi txt w'
   nextPutAll: a
     a do: [:x | self numInc: x].
   !"end nextPutAll"
-=======
     "Constructor for Num type."
     init
         self n: 0;
@@ -82,9 +81,6 @@ Magic sub: #Num has: 'n mu m2 sd id lo hi txt w'
 ! "end class"
 
 ! Collection methods !
-    eject: aBlock [
-        | validCollection |
-        validCollection := self select aBlock.
-        self do: [:element | (validCollection includes: element) ifTrue: [self remove element]].
-        ^self.
-    ]
+    eject: aBlock
+        ^self select: [:element | (aBlock value: element) not].
+!!

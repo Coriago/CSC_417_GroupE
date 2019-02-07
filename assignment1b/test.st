@@ -10,4 +10,4 @@ num sd asFloatE oo. "==> 3.06"
 num mu oo. "==> 7"
 num n  oo. "==> 20" !
 
-#(1 2 3) eject: [:x | x > 1.5]!
+(#(1 2 3) eject: [:x | x > 1.5]) oo!
