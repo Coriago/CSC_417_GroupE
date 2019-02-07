@@ -10,5 +10,4 @@ num sd asFloatE oo. "==> 3.06"
 num mu oo. "==> 7"
 num n  oo. "==> 20" !
 
-#(10 21 32 43 54) goodB4Now: [:b4 :now|
-     ((now-b4)/b4) asFloat oo] !x!
+#(1 2 3) eject: [:x | x > 1.5]!
