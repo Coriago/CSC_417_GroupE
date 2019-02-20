@@ -185,6 +185,12 @@ need to fix something inside `data0`.
 )
     
 ;--------- --------- --------- --------- --------- --------- ---------
+(defun known (a binds)
+  (let ((b (cdr (assoc a binds)))) ; the first element found associated with a
+    (if (find #\? (write-to-string b)) ; check if b has a ?
+      (known b binds) ; if b has a ?, recurse and keep searching
+       b))) ; else, we have found the known element and return it
+
 (defun unify (x y &optional binds)
   (cond 
     ((eql x y)        (values binds t))
