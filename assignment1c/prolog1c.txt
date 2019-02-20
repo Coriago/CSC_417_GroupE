@@ -1,3 +1,10 @@
+1a 
+  A Lisp association list is a list of key and value pairs. The structure of an
+  association list has a list as the root that points at the current pair and 
+  the next pair. The car of the pair is the key while the cdr is the datum.
+
+  An alist can be created by the format (key . datum) 
+
 1b
   the assoc funtion searches through an association list (key-value pairs)
   and returns the first pair that contains the given key.
@@ -8,6 +15,24 @@
   
   So in the given example, the function returns (R . X) because that is the first pair
   associated with r.
+
+
+1d
+  To create a lisp hash table we use the function make-hash-table and can assign it to a variable as such.
+  
+  (defparameter *table* (make-hash-table))
+  
+  gethash is used to retireve a hashed value and setf is able to assign a value.
+  To store a value "6" with the key "key" we do:
+
+  (setf (gethash 'key *table*) 6)
+  
+  or
+
+  (push *table* 6)
+
+  and to retireve it we do 
+  (gethash 'key *table)
 
 1e
   sublis searches through a list, and replaces all instances of one token with another.
