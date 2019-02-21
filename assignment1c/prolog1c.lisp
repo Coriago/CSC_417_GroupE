@@ -150,6 +150,7 @@ need to fix something inside `data0`.
   (<- (chain4 ?a ?b)
          (and (= ?a ?b)
               (= ?b ?c)
+              ;(not (and (= 1 1)(> ?c 3)))
               (not (> ?c 3))
               (= ?c 1)))
   (<- (father ?x ?y) 
@@ -244,12 +245,14 @@ need to fix something inside `data0`.
   (case (car expr)
     (and  (ands     (reverse (cdr expr))       binds))
     (or   (ors      (cdr  expr)                binds))
-    (not  (negation (cadr expr)                binds))
+    (not  (negation (cdr  expr)                binds))
     (do   (evals    (cadr expr)                binds))
+    (>    (evals    expr                       binds))
+    (<    (evals    expr                       binds))
     (t    (prove1   (car  expr) (cdr expr)     binds))))
 
 ;--------- --------- --------- --------- --------- --------- ---------
-(defun show (goals) (format t "~d~%" goals))
+(defun show (goals) (format t "[~d]~%" goals))
 
 (defun ands (goals binds)
   (if (null goals)
