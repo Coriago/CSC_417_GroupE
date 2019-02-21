@@ -191,6 +191,33 @@ need to fix something inside `data0`.
       (known b binds) ; if b has a ?, recurse and keep searching
        b))) ; else, we have found the known element and return it
 
+
+; PLAGIARISM NOTE: This function flattens a structure of nested lists into
+; a single list of all atoms in the structure.  solution was borrowed from
+; the following StackOverflow post 
+;https://stackoverflow.com/questions/2680864/how-to-remove-nested-parentheses-in-lisp#answer-2894427
+(defun removePars ( nestedList) 
+    (cond ((null nestedList) nil)
+          ((atom (car nestedList)) (cons (car nestedList) (removePars (cdr nestedList))))
+          (t (append (removePars (car nestedList )) (removePars (cdr nestedList))))
+    )   
+)
+
+(defun HAS-VARS( lst &optional vars )
+    (setq lst (removePars lst) )
+    (when lst 
+        ( setq head (string (car lst)))
+        ( when (equal #\? (char head 0) )
+                (setq vars (cons head vars ))
+        )
+        ( if ( cdr lst )
+            (HAS-VARS (cdr lst) vars)
+            (loop for sym in (remove-duplicates vars) collect (intern sym))
+        )
+    )   
+)
+
+
 (defun unify (x y &optional binds)
   (cond 
     ((eql x y)        (values binds t))
