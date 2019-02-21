@@ -157,8 +157,10 @@ need to fix something inside `data0`.
         (parent ?x ?y) 
         (male ?x)))
   (<- (sibling ?x ?y) 
-      (and (parent ?z ?x)
-           (parent ?z ?y))))
+      (and 
+           (parent ?z ?x)
+           (parent ?z ?y)
+           (not (= ?x ?y)))))
 
 
 ;--------- --------- --------- --------- --------- --------- ---------
