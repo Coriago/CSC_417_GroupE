@@ -206,8 +206,8 @@ need to fix something inside `data0`.
 (defun HAS-VARS( lst &optional vars )
     (setq lst (removePars lst) )
     (when lst 
-        ( setq head (string (car lst)))
-        ( when (equal #\? (char head 0) )
+        ( setq head (write-to-string (car lst)))
+        ( when (find #\? head )
                 (setq vars (cons head vars ))
         )
         ( if ( cdr lst )
