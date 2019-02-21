@@ -249,7 +249,8 @@ need to fix something inside `data0`.
     (t    (prove1   (car  expr) (cdr expr)     binds))))
 
 ;--------- --------- --------- --------- --------- --------- ---------
-(defun show (goals binds) (print x))
+(defun show (goals) (format t "~d~%" goals))
+
 (defun ands (goals binds)
   (if (null goals)
       (list binds)
