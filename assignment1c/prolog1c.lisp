@@ -150,7 +150,6 @@ need to fix something inside `data0`.
   (<- (chain4 ?a ?b)
          (and (= ?a ?b)
               (= ?b ?c)
-              ;(not (and (= 1 1)(> ?c 3)))
               (not (> ?c 3))
               (= ?c 1)))
   (<- (father ?x ?y) 
@@ -175,16 +174,20 @@ need to fix something inside `data0`.
     (format t "~A is the sibling of ~A.~%" ?x ?y))
   (query 
     (chain1 ?x 1)
-    (format t "?x in chain1 matches to ~A.~%" ?x))
+    (format t "?x in chain1 matches to ~A.~%" ?x)
+    )
   (query 
     (chain2 ?x 1)
-    (format t "?x in chain2 matches to ~A.~%" ?x))
+    (format t "?x in chain2 matches to ~A.~%" ?x)
+    )
   (query 
     (chain3 ?x 1)
-    (format t "?x in chain3 matches to ~A.~%" ?x))
+    (format t "?x in chain3 matches to ~A.~%" ?x)
+    )
   (query 
     (chain4 ?x 1)
-    (format t "?x in chain4 matches to ~A.~%" ?x))
+    (format t "?x in chain4 matches to ~A.~%" ?x)
+    )
 )
     
 ;--------- --------- --------- --------- --------- --------- ---------
@@ -245,10 +248,13 @@ need to fix something inside `data0`.
   (case (car expr)
     (and  (ands     (reverse (cdr expr))       binds))
     (or   (ors      (cdr  expr)                binds))
-    (not  (negation (cdr  expr)                binds))
+    (not  (negation (cadr  expr)               binds))
     (do   (evals    (cadr expr)                binds))
     (>    (evals    expr                       binds))
     (<    (evals    expr                       binds))
+    (>=   (evals    expr                       binds))
+    (<=   (evals    expr                       binds))
+    (print (evals   expr                       binds))
     (t    (prove1   (car  expr) (cdr expr)     binds))))
 
 ;--------- --------- --------- --------- --------- --------- ---------
