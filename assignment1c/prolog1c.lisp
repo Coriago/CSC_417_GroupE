@@ -194,30 +194,23 @@ need to fix something inside `data0`.
        b))) ; else, we have found the known element and return it
 
 
-; PLAGIARISM NOTE: This function flattens a structure of nested lists into
-; a single list of all atoms in the structure.  solution was borrowed from
-; the following StackOverflow post 
-;https://stackoverflow.com/questions/2680864/how-to-remove-nested-parentheses-in-lisp#answer-2894427
-(defun removePars ( nestedList) 
-    (cond ((null nestedList) nil)
-          ((atom (car nestedList)) (cons (car nestedList) (removePars (cdr nestedList))))
-          (t (append (removePars (car nestedList )) (removePars (cdr nestedList))))
-    )   
-)
+(defun visitr (x f)
+  "generic visitor"
+  (if (atom x)
+      (funcall f x)
+      (dolist (y x)
+         (visitr y f))))
 
-(defun HAS-VARS( lst &optional vars )
-    (setq lst (removePars lst) )
-    (when lst 
-        ( setq head (write-to-string (car lst)))
-        ( when (find #\? head )
-                (setq vars (cons head vars ))
-        )
-        ( if ( cdr lst )
-            (HAS-VARS (cdr lst) vars)
-            (loop for sym in (remove-duplicates vars) collect (intern sym))
-        )
-    )   
-)
+(defun selectr (x p  &optional out )
+  "visit, collecting the result"
+  (visitr x (lambda (y)
+               (if (funcall p y)
+                   (pushnew y out))))
+  out)
+
+(defun has-vars (lst)
+    (selectr lst (lambda (y) 
+                (var? y) )))
 
 
 (defun unify (x y &optional binds)
@@ -256,7 +249,7 @@ need to fix something inside `data0`.
     (t    (prove1   (car  expr) (cdr expr)     binds))))
 
 ;--------- --------- --------- --------- --------- --------- ---------
-(defun show (x) (print x))
+(defun show (goals binds) (print x))
 (defun ands (goals binds)
   (if (null goals)
       (list binds)
