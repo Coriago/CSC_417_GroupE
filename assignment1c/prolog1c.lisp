@@ -247,13 +247,14 @@ need to fix something inside `data0`.
 
 (defun prove (expr &optional binds)
   (case (car expr)
-    (and  (ands        (reverse (cdr expr))   binds))
-    (or   (ors         (cdr  expr)            binds))
-    (not  (negation    (cadr expr)            binds))
-    (do   (evals       (cadr expr)            binds))
-    (t    (prove1      (car  expr) (cdr expr) binds))))
+    (and  (ands     (reverse (cdr expr))       binds))
+    (or   (ors      (cdr  expr)                binds))
+    (not  (negation (cadr expr)                binds))
+    (do   (evals    (cadr expr)                binds))
+    (t    (prove1   (car  expr) (cdr expr)     binds))))
 
 ;--------- --------- --------- --------- --------- --------- ---------
+(defun show (x) (print x))
 (defun ands (goals binds)
   (if (null goals)
       (list binds)
