@@ -1,11 +1,11 @@
-1a 
+1a.
   A Lisp association list is a list of key and value pairs. The structure of an
   association list has a list as the root that points at the current pair and 
   the next pair. The car of the pair is the key while the cdr is the datum.
 
   An alist can be created by the format (key . datum) 
 
-1b
+1b.
   the assoc funtion searches through an association list (key-value pairs)
   and returns the first pair that contains the given key.
   
@@ -16,8 +16,17 @@
   So in the given example, the function returns (R . X) because that is the first pair
   associated with r.
 
+1c. What does the LISP function "mapcan" do? Give an example of its use.
 
-1d
+    "mapcan" applies a function across a list of elements iteratively. "mapcan" returns
+    a list of return values of the applied function. If the function expects multiple 
+    parameters, a list of inputs for each argument must be supplied. 
+
+        Examples:
+        (mapcan (lambda  (x y) (list (+ x y))) '(1 2 3) '(2 3 4)) ---> (3 4 7)
+        (mapcan (lambda  (x)   (list (* x x))) '(1 2 3 4 5))      ---> (1 4 9 16 25)
+
+1d.
   To create a lisp hash table we use the function make-hash-table and can assign it to a variable as such.
   
   (defparameter *table* (make-hash-table))
