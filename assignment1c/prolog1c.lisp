@@ -237,6 +237,7 @@ need to fix something inside `data0`.
 ;; does no occur check cause crash?
 ;--------- --------- --------- --------- --------- --------- ---------
 (defmacro query (question &body body)
+    ;(print question)
   (let ((binds (gensym)))
     `(dolist (,binds (prove ',question))
        (let ,(mapcar (lambda (v)
@@ -254,13 +255,29 @@ need to fix something inside `data0`.
     (<    (evals    expr                       binds))
     (>=   (evals    expr                       binds))
     (<=   (evals    expr                       binds))
-    (print (evals   expr                       binds))
     (t    (prove1   (car  expr) (cdr expr)     binds))))
 
 ;--------- --------- --------- --------- --------- --------- ---------
 (defun show (goals) (format t "[~d]~%" goals))
 
+#|
+    Answer to 1J :
+    Mapcan requires a list of input from "(ands (cdr goals) binds)" before it
+    can pass arguments to the lambda function. Since this list has a recursive call to 
+    "ands", the list isn't constructed, and therefore the lambda function isn't executed,
+    until "ands" returns. So the first element in the list will actually be the last
+    element to be proven within the lambda function. For example, for the list of 
+    goals from the chain4 query:
+
+    ((= #:?3315 1) (NOT (> #:?3315 3)) (= #:?3316 #:?3315) (= #:?3317 #:?3316))
+    
+    The first clause to be proven is (= #:?3317 #:?3317). Since boolean "and" operations
+    are conventionally processed from left to right, the list of goals (or clauses) 
+    passed in the "prove" case statement must be reversed.
+|#
+
 (defun ands (goals binds)
+    (print goals)
   (if (null goals)
       (list binds)
       (mapcan (lambda (b)
