@@ -38,7 +38,7 @@
   
   or
 
-  (push *table* 6)
+  (push 6 (gethash 'key *table*))
 
   and to retireve it we do 
   (gethash 'key *table)
