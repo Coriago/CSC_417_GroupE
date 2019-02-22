@@ -60,3 +60,8 @@
   So in this example, (gensym "?") generates the symbol #:?3069
   When I call (gensym "?") a second time, the symbol is #:?3070
   When I call (gensym "HELLO"), it generates the symbol #:HELLO3071
+
+1g
+  The code in (= ?x ?x) is part of the prolog rule set and doesn't need 
+  functionality like ">" or "and" because it is unified. When passed into prove, 
+  prove1 is called like other prolog rules and if the predicate is an "=" it attempts to unify with the rule (= ?x ?x).

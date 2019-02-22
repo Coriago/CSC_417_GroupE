@@ -277,7 +277,6 @@ need to fix something inside `data0`.
 |#
 
 (defun ands (goals binds)
-    (print goals)
   (if (null goals)
       (list binds)
       (mapcan (lambda (b)
