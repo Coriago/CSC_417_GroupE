@@ -161,22 +161,27 @@ TODO 1c. Implement "data-as-case":
     ==>
     ((NAME (LAMBDA NIL NAME)) 
      (BALANCE (LAMBDA NIL BALANCE)) 
-     (INTEREST-RATE (LAMBDA NIL INTEREST-RATE)))
-    
+     (INTEREST-RATE (LAMBDA NIL INTEREST-RATE))) |#
+(defun datas-as-case (dataList)
+    (mapcar (lambda (e) (list e `(lambda NIL ,e))) dataList))
+
+
+#|
 1d. Implement  "methods-as-case"
 
      (methods-as-case '((more (x) (+ x 1)) (less (x) (- x 1))))
      ==>
      ((MORE (LAMBDA (X) (+ X 1))) 
-      (LESS (LAMBDA (X) (- X 1))))
-     
-
+      (LESS (LAMBDA (X) (- X 1)))) |#
+(defun methods-as-case (methodsList)
+    (mapcar (lambda (e) (list (car e) `(lambda ,@(cdr e)))) methodsList))     
+#|
 Now that that is working, the following should
 expand nicely:
 |#
 
 ; but first, uncomment this code
-'(defthing
+(defthing
   account
   :has  ((name) (balance 0) (interest-rate .05))
   :does ((withdraw (amt)
@@ -193,7 +198,7 @@ TODO 1e. Show the result of expanding you account.
 |#
 
 ; uncomment this to see what an account looks like
-'(xpand (account))
+(xpand (account))
 
 #|
  
@@ -214,7 +219,7 @@ TODO 1f.. Show the output from the following function
 
 
 ; to run encapuatlion, uncomment the following
-'(encapsulation)
+(encapsulation)
 
 #|
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
