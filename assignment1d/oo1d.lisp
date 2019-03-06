@@ -332,7 +332,16 @@ object
 
 ; implement defklass here
 
-(defmacro defklass (klass &key has does)
+(defmacro defklass (klass &key isa has does)
+    (let* ((b4          (and isa (gethash isa *meta*)))
+         (has-before  (and b4 (about-has b4)))
+         (does-before (and b4 (about-does b4)))
+         (has (remove-duplicates (union has-before has) :test #'eq :key #'car))
+         (does (remove-duplicates (union does-before does) :test #'eq :key #'car))
+         (message (gensym "MESSAGE"))
+         (self (gensym "SELF")))
+    (setf (gethash klass *meta*)
+        (make-about :has has :does does))
     `(defun ,klass (&key ,@has) 
         (let ((,self (lambda (,message)
                (case ,message
@@ -340,7 +349,7 @@ object
                     ,@(datas-as-case (mapcar #'car has))))))
             (send ,self '_self! ,self)
             (send ,self '_isa! ',klass)
-              ,self)))
+              ,self))))
 
 (let ((_counter 0))
   (defun counter () (incf _counter)))
@@ -412,4 +421,4 @@ object
       (print `(meta ,(send acc 'show))
    )))
 
-'(meta)
+(meta)
