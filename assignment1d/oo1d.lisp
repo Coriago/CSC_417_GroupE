@@ -332,6 +332,16 @@ object
 
 ; implement defklass here
 
+(defmacro defklass (klass &key has does)
+    `(defun ,klass (&key ,@has) 
+        (let ((,self (lambda (,message)
+               (case ,message
+                    ,@(methods-as-case does)
+                    ,@(datas-as-case (mapcar #'car has))))))
+            (send ,self '_self! ,self)
+            (send ,self '_isa! ',klass)
+              ,self)))
+
 (let ((_counter 0))
   (defun counter () (incf _counter)))
 
@@ -341,7 +351,7 @@ object
 
 ; uncomment the following when defklass is implemented
 
-'(defklass 
+(defklass 
   object 
   :has ((_self)  (_isa) (id (counter)))
   :does (
@@ -356,7 +366,7 @@ object
                                 slot-values)))))))
 
 ; uncomment the following when defklass is implemented
-'(defklass
+(defklass
   account
   :isa object
   :has  ((name) (balance 0) (interest-rate .05))
@@ -369,10 +379,10 @@ object
                          (* interest-rate balance)))))
 
 ; uncomment this to see what is going on
-'(xpand (account))
+(xpand (account))
 
 ; uncomment the following when defklass is implemented
-'(defklass
+(defklass
   trimmed-account
   :isa account
   :does ((withdraw (amt)
@@ -392,9 +402,9 @@ object
 
 ; TODO: 3a show that the following works correctly
 
-'(inheritance)
+(inheritance)
 
-'(xpand (trimmed-account))
+(xpand (trimmed-account))
 ; TODO: 3b. show that the following prints out the slots of an object.
 
 (defun meta ()
