@@ -198,7 +198,7 @@ TODO 1e. Show the result of expanding you account.
 |#
 
 ; uncomment this to see what an account looks like
-(xpand (account))
+'(xpand (account))
 
 #|
  
@@ -238,7 +238,7 @@ TODO 2a. Define an object "cirle" with variables x,y
                (* 3.14159 radius radius))))
 
 ; run this to peek inside circle
-(xpand (circle))
+'(xpand (circle))
 
 #|
 TODO 2b. Define an object "rectangle" with variables x1,x2,y1,y2
@@ -336,7 +336,7 @@ object
     (let* ((b4          (and isa (gethash isa *meta*)))
          (has-before  (and b4 (about-has b4)))
          (does-before (and b4 (about-does b4)))
-         (has (remove-duplicates (union has-before has) :test #'eq :key #'car))
+         (has (remove-duplicates (union  has has-before) :test #'eq :key #'car :from-end t))
          (does (remove-duplicates (union does-before does) :test #'eq :key #'car))
          (message (gensym "MESSAGE"))
          (self (gensym "SELF")))
@@ -388,7 +388,7 @@ object
                          (* interest-rate balance)))))
 
 ; uncomment this to see what is going on
-(xpand (account))
+'(xpand (account))
 
 ; uncomment the following when defklass is implemented
 (defklass
@@ -413,7 +413,7 @@ object
 
 (inheritance)
 
-(xpand (trimmed-account))
+'(xpand (trimmed-account))
 ; TODO: 3b. show that the following prints out the slots of an object.
 
 (defun meta ()
