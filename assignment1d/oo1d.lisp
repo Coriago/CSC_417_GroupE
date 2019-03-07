@@ -1,3 +1,11 @@
+#|
+Group E
+
+Authors: Daniel C. Mills (dcmills2)
+         Daniel E. Mills (demills)
+         Gage Miller (dgmille2)
+|#
+
 ;  vim: set filetype=lisp tabstop=2 shiftwidth=2 expandtab :
 
 #|
@@ -153,9 +161,23 @@ and "datas-as-case" is missing... till you write it.
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 1. Make defthing work
 
-TODO 1a. Why does mapcar call #'car over the "has"?
-TODO 1b. Why is message set to a gensym?
-TODO 1c. Implement "data-as-case": 
+    1a. Why does mapcar call #'car over the "has"?
+The #' is shorthand for (function <some_function>), and "mapcar" expects
+a function and a list of inputs as its arguments. Without the #' in front
+of "car", "car has" would be evaluated to the first element of has. With
+the #', the "car" function is mapped across the list of instance variable 
+key-value pairs (e.g. ((balance 0) (interest-rate .05))) to produce a 
+list of the instance variable names (e.g. (balance interest-rate)).
+
+1b. Why is message set to a gensym?
+The "defthing" macro will be expanded several times to define objects
+(e.g. rectangle, circle, account, etc.). Using "gensym" prevents 
+variable name clashing in these object definitions. It also ensures 
+that "message" only needs to be evaluated once and then assigned to 
+the symbol returned from "gensym".
+
+
+1c. Implement "data-as-case": 
 
     (datas-as-case '(name balance interest-rate))
     ==>
@@ -164,7 +186,6 @@ TODO 1c. Implement "data-as-case":
      (INTEREST-RATE (LAMBDA NIL INTEREST-RATE))) |#
 (defun datas-as-case (dataList)
     (mapcar (lambda (e) (list e `(lambda NIL ,e))) dataList))
-
 
 #|
 1d. Implement  "methods-as-case"
@@ -194,7 +215,7 @@ expand nicely:
 
 #|
 
-TODO 1e. Show the result of expanding you account.
+1e. Show the result of expanding you account.
 |#
 
 ; uncomment this to see what an account looks like
@@ -202,7 +223,7 @@ TODO 1e. Show the result of expanding you account.
 
 #|
  
-TODO 1f.. Show the output from the following function
+1f.. Show the output from the following function
 
 |#
 
@@ -225,7 +246,7 @@ TODO 1f.. Show the output from the following function
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; POLYMORPHISM
 
-TODO 2a. Define an object "cirle" with variables x,y
+2a. Define an object "cirle" with variables x,y
     (for  the center of the circle) and radius 
     (to hold the size of the circle). Add a method 
     "area" that returns 2 *pi*radius^2
@@ -241,7 +262,7 @@ TODO 2a. Define an object "cirle" with variables x,y
 '(xpand (circle))
 
 #|
-TODO 2b. Define an object "rectangle" with variables x1,x2,y1,y2
+2b. Define an object "rectangle" with variables x1,x2,y1,y2
     that all default value of 0. Add
     a method "area" that returns the area of that rectangle
 |#
@@ -251,7 +272,7 @@ TODO 2b. Define an object "rectangle" with variables x1,x2,y1,y2
   :does ((area ()
                (* (- x2 x1) (- y2 y1)))))
 #|
-TODO 2c. Show the output from the following test
+2c. Show the output from the following test
 
 |#
 
@@ -409,12 +430,13 @@ object
         (print `(inheritance ,(send acc 'withdraw 20))))
       ))
 
-; TODO: 3a show that the following works correctly
+; : 3a show that the following works correctly
 
 (inheritance)
 
 '(xpand (trimmed-account))
-; TODO: 3b. show that the following prints out the slots of an object.
+
+; : 3b. show that the following prints out the slots of an object.
 
 (defun meta ()
    (let ((acc (trimmed-account)))
