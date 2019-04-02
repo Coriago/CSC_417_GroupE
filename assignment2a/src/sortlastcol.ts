@@ -1,6 +1,8 @@
-var readline = require('readline');
+import * as readline from "readline";
+import * as fs from "fs";
 
 function readVals(): number[][] {
+    
     //2d array that stores each row of nums
     var vals: number[][];
     //TODO: store each row from stdn in a row array

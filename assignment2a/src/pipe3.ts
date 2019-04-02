@@ -5,23 +5,22 @@
 /*  Step 1:
     Read the csv from standard input
 */
-var readline = require('readline');
+import * as readline from 'readline';
 
-var rl = readline.createInterface({
+let rl = readline.createInterface({
     input: process.stdin,
     output: process.stdout
 });
 
-let table = '';
-
-rl.on('line', (line) => {
-    table = line;
-});
 /*  Step 2:
     Use a library to convert the csv to a readable file, 
     specifically an object
 */
-
+let table: string[];
+import * as csvParse from 'csv-parse';
+var parser:csvParse.CsvParser = csvParse({delimiter: ','}, function(data, err) {
+    
+});
 
 /*  Step 3:
     Peform recursive cuts and sort data into best and the rest
