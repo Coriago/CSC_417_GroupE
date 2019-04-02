@@ -13,9 +13,9 @@ require "rows"
 
 function label(data,  enough,rows, most,cohen)
   rows = data.rows -- Grab the #rows from data object
-  enough = (#rows)^Lean.label.enough 
+  enough = (#rows)^Lean.label.enough -- #rows ^ .5 --
 
-  --
+
   local function band(c,lo,hi)
     print( "band" )
     if lo==1 then
@@ -70,7 +70,11 @@ function label(data,  enough,rows, most,cohen)
   -- and "t.n" that counts the number of values the std deviation is
   -- calculated on.
   for i=1,#data.rows  do numInc(all, rows[i][c]) end
-  cohen = all.sd*Lean.label.cohen
+  --Filter 3 --
+
+  --Grab std from last line and multiply by .3 --
+  cohen = all.sd*Lean.label.cohen 
+  --
   fyi("\n-- ".. data.name[c] .. "----------")
   cuts(c,1,#data.rows,"|.. ") 
   print(cat(data.name,", ") .. ",!klass" )
