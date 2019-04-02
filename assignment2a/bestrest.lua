@@ -6,8 +6,8 @@ require "num"
 require "rows"
 
 function label(data,  enough,rows, most,cohen)
-  rows = data.rows
-  enough = (#rows)^Lean.label.enough 
+  rows = data.rows -- Save the argument as a local variable
+  enough = (#rows)^Lean.label.enough --
 
   local function band(c,lo,hi)
     print( "band" )
@@ -52,9 +52,16 @@ function label(data,  enough,rows, most,cohen)
     mark(c,lo,hi)
   end
 
+  -- Sets "c" to the number of attributes/columns in input data.
   local c=#data.name
+  -- Sorts by last field of "rows". rows is the input minus the attribute names.
   ksort(c,rows)
   local all = num()
+  -- Iterates over rows of data. For each row, the current std
+  -- deviation of the dom column is updated with the dom value for 
+  -- that row. The "all" object stores stats "t.mu" (std deviation)
+  -- and "t.n" that counts the number of values the std deviation is
+  -- calculated on.
   for i=1,#data.rows  do numInc(all, rows[i][c]) end
   cohen = all.sd*Lean.label.cohen
   fyi("\n-- ".. data.name[c] .. "----------")
