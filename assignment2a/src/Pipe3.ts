@@ -42,6 +42,12 @@ class table {
 //Create an instance of table
 var csv = new table();
 
+//Import the readline module for reading stdin
+import * as parse from 'papaparse';
+
+rl.on('line', (input: string) => {
+    csv.data[csv.rows] = input;
+})
 /*  Step 3:
     Peform recursive cuts and sort data into best and the rest
     using the argmin values attached at the end of each line
