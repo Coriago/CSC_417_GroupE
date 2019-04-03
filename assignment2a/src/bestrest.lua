@@ -70,12 +70,17 @@ function label(data,  enough,rows, most,cohen)
   -- and "t.n" that counts the number of values the std deviation is
   -- calculated on.
   for i=1,#data.rows  do numInc(all, rows[i][c]) end
-  --Filter 3 --
+  --Filter 2 --
+  --Calculate the standard deviation, then calculate the argmin for
+  --  Each line and append to the end.--
 
   --Grab std from last line and multiply by .3 --
   cohen = all.sd*Lean.label.cohen 
-  --
+  --Write to standard error --
   fyi("\n-- ".. data.name[c] .. "----------")
+
+  --Filter 3 --
+  
   cuts(c,1,#data.rows,"|.. ") 
   print(cat(data.name,", ") .. ",!klass" )
   dump(rows)
