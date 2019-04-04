@@ -119,40 +119,27 @@ function calcSplits() {
     var cut:number = 0;
     var sym:string = "|..";
     var prevCut:number;
-    //process.stderr.write( "-- " + attributes[ numCols - 1 ] + "----------\n" );
 
-    /*
     for ( var i = 0; i < numCols - 1; i++ ) {
         process.stdout.write( attributes[ i ] + ", " );
     }
     process.stdout.write( attributes[ i ] + "\n" ); 
-    */
 
     for ( var i = 0; i < numRows; i++ ) {
-        /*
-        process.stderr.write( sym + " " );
-        for ( var j = 0; j < count; j++ ) {
-            process.stderr.write( sym );
-        }
-
-        //process.stderr.write( lastCol[ cut ] + "\n" );
-        //process.stderr.write( "" + lastCol[ cut ]);
         count++;
-        */
         if ( ( numRows - i ) > minBinSize ) {
             prevCut = cut;
             cut = argmin( i, numRows);
 
             for ( var j = i; j < cut; j++ ) {
                 process.stdout.write( rows[ j ] + "," + cut + "\n" );
-                //console.log( j + "\t:" +cut + "\tvalue :" + lastCol[ cut ]);
             }
             i = cut - 1;
         }
     }
 
     for ( var i = prevCut; i < numRows; i++ ) {
-        process.stdout.write( rows[ i ] + "," + cut + "\n" );
+        process.stdout.write( rows[ i ] + "," + numRows + "\n" );
     }
 }
 
