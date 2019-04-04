@@ -15,7 +15,7 @@ function label(data,  enough,rows, most,cohen)
   rows = data.rows -- Grab the #rows from data object
   enough = (#rows)^Lean.label.enough -- #rows ^ .5 --
 
-
+  --C is the number of columns --
   local function band(c,lo,hi)
     print( "band" )
     if lo==1 then
@@ -26,6 +26,7 @@ function label(data,  enough,rows, most,cohen)
       return rows[lo][c]..".."..rows[hi][c] end
   end
 
+  --C is the number of columns --
   local function argmin(c,lo,hi,     l,r,cut,best ,tmp,x)
     if (hi - lo > 2*enough) then
       l,r = num(), num()
@@ -44,11 +45,13 @@ function label(data,  enough,rows, most,cohen)
     return cut
   end
 
+  --C is the number of columns --
   local function mark(c, lo,hi,   b)
     b= band(c,lo,hi)
     for r=lo,hi do rows[r][c+1]=b end 
   end
 
+  --C is the number of columns --
   local function cuts(c,lo,hi,pre,       cut,txt,b)
     fyi(pre .. rows[lo][c])
     if hi - lo > enough then
@@ -70,12 +73,17 @@ function label(data,  enough,rows, most,cohen)
   -- and "t.n" that counts the number of values the std deviation is
   -- calculated on.
   for i=1,#data.rows  do numInc(all, rows[i][c]) end
-  --Filter 3 --
+  --Filter 2 --
+  --Calculate the standard deviation, then calculate the argmin for
+  --  Each line and append to the end.--
 
   --Grab std from last line and multiply by .3 --
   cohen = all.sd*Lean.label.cohen 
-  --
+  --Write to standard error --
   fyi("\n-- ".. data.name[c] .. "----------")
+
+  --Filter 3 --
+  
   cuts(c,1,#data.rows,"|.. ") 
   print(cat(data.name,", ") .. ",!klass" )
   dump(rows)
