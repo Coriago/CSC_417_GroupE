@@ -66,7 +66,6 @@ class table {
 }
 //Create an instance of table
 var csv = new table();
-
 //Parse the CSV file from standard in
 var parsed = Papa.parse(process.stdin);
 //Move the data over to the data object
@@ -104,13 +103,13 @@ function mark(input: table, low: number, high: number) {
     let b = band(input, low, high);
     let i:number;
     for(i = low; i <= high; i++ ) {
-        input.data[i][input.cols] = b
+        input.data[i][input.cols + 1] = b
     }
 }
 
 //FIGURE OUT WHAT MOST IS!!!
 function band(input: table, low: number, high: number) {
-    console.log( "band");
+    console.log("band");
     if(low == 1) {
         return ("..").concat(input.data[low][input.c]);
     } else if(high == Most) {
