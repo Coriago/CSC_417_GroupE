@@ -15,7 +15,7 @@ function label(data,  enough,rows, most,cohen)
   rows = data.rows -- Grab the #rows from data object
   enough = (#rows)^Lean.label.enough -- #rows ^ .5 --
 
-
+  --C is the number of columns --
   local function band(c,lo,hi)
     print( "band" )
     if lo==1 then
@@ -26,6 +26,7 @@ function label(data,  enough,rows, most,cohen)
       return rows[lo][c]..".."..rows[hi][c] end
   end
 
+  --C is the number of columns --
   local function argmin(c,lo,hi,     l,r,cut,best ,tmp,x)
     if (hi - lo > 2*enough) then
       l,r = num(), num()
@@ -44,11 +45,13 @@ function label(data,  enough,rows, most,cohen)
     return cut
   end
 
+  --C is the number of columns --
   local function mark(c, lo,hi,   b)
     b= band(c,lo,hi)
     for r=lo,hi do rows[r][c+1]=b end 
   end
 
+  --C is the number of columns --
   local function cuts(c,lo,hi,pre,       cut,txt,b)
     fyi(pre .. rows[lo][c])
     if hi - lo > enough then
