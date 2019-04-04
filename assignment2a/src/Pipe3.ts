@@ -111,12 +111,11 @@ function mark(input: table, low: number, high: number) {
 function band(input: table, low: number, high: number) {
     console.log("band");
     if(low == 1) {
-        return ("..").concat(input.data[low][input.c]);
-    } else if(high == Most) {
-        return ("..").concat(input.data[low][input.c]);
+        return ("..").concat(input.data[high][input.c]);
     } else {
         return String(input.data[low][input.c]).concat("..", input.data[high][input.c]);
     }
 }
 
 cuts(csv, 1, csv.rows, "|.. ");
+

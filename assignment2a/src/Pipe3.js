@@ -86,7 +86,7 @@ function mark(input, low, high) {
     var b = band(input, low, high);
     var i;
     for (i = low; i <= high; i++) {
-        input.data[i][input.cols] = b;
+        input.data[i][input.cols + 1] = b;
     }
 }
 //FIGURE OUT WHAT MOST IS!!!
