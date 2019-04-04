@@ -18,9 +18,9 @@ var allStdDevs:number[];
 var minBinSize:number;
 var minRise:number;
 var COHEN:number = 0.3;
-
+var data: Array<String>; 
 function readInput() {
-    var data: Array<String> = fs.readFileSync( '/dev/stdin', 'utf8' ).split( "\n" );
+    data = fs.readFileSync( '/dev/stdin', 'utf8' ).split( "\n" );
     attributes = data[ 0 ].split( "," );
     rows = data.slice( 1, data.length - 1).map( 
         line => line.split(",").map(Number)
@@ -82,7 +82,7 @@ function calcSplits() {
         var cut:number;
 
         if ( ( max - min ) > ( 2 * minBinSize ) ) {
-            var aboveSplitAggr = getStdDev( 0, numRows );
+            var aboveSplitAggr = getStdDev( min, numRows );
             var belowSplitAggr = getStdDev( 0, 0);
             var best:number = aboveSplitAggr.sd;
 
@@ -115,13 +115,44 @@ function calcSplits() {
         return cut + 1;
     }
 
-    var cut:number;
+    var count:number = 0;
+    var cut:number = 0;
+    var sym:string = "|..";
+    var prevCut:number;
+    //process.stderr.write( "-- " + attributes[ numCols - 1 ] + "----------\n" );
+
+    /*
+    for ( var i = 0; i < numCols - 1; i++ ) {
+        process.stdout.write( attributes[ i ] + ", " );
+    }
+    process.stdout.write( attributes[ i ] + "\n" ); 
+    */
+
     for ( var i = 0; i < numRows; i++ ) {
-        cut = argmin( i, numRows);
-        for ( var j = i; j < cut; j++ ) {
-            console.log( j + "\t:" +cut + "\tvalue :" + lastCol[cut ]);
+        /*
+        process.stderr.write( sym + " " );
+        for ( var j = 0; j < count; j++ ) {
+            process.stderr.write( sym );
         }
-        i = cut - 1;
+
+        //process.stderr.write( lastCol[ cut ] + "\n" );
+        //process.stderr.write( "" + lastCol[ cut ]);
+        count++;
+        */
+        if ( ( numRows - i ) > minBinSize ) {
+            prevCut = cut;
+            cut = argmin( i, numRows);
+
+            for ( var j = i; j < cut; j++ ) {
+                process.stdout.write( rows[ j ] + "," + cut + "\n" );
+                //console.log( j + "\t:" +cut + "\tvalue :" + lastCol[ cut ]);
+            }
+            i = cut - 1;
+        }
+    }
+
+    for ( var i = prevCut; i < numRows; i++ ) {
+        process.stdout.write( rows[ i ] + "," + cut + "\n" );
     }
 }
 
