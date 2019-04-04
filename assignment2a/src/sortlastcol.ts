@@ -1,4 +1,4 @@
-import * as readline from "readline";
+import * as fs from "fs";
 
 /**
  * This filter in the pipe reads in comma-separated values from standard input.
@@ -14,6 +14,9 @@ import * as readline from "readline";
  * -m = mergeSort
  * -b = bubbleSort
  * -s = selectionSort
+ * 
+ * @author Daniel Curtis Mills
+ *         dcmills2@ncsu.edu
  */
 
 // start by reading the values
@@ -23,40 +26,13 @@ readVals();
  * Reads comma separated values from standard input
  * and stores it in a 2D array
  */
-function readVals(): any {
+function readVals() {
+    var data: string[] = fs.readFileSync('/dev/stdin', 'utf8').split("\n");
+    var vals: number[][] = data.slice(1, data.length - 1).map( 
+        line => line.split(",").map(Number)
+    );
 
-    //reads lines from standard input
-    var read = readline.createInterface({
-        input: process.stdin
-    });
-
-    //array stores each line as a whole string
-    var rows: string[] = [];
-    //2d array that stores each row of nums
-    var vals: number[][] = [];
-    //keeps track of how many lines we've read
-    var i: number = 0;
-    read.on("line", function(line) {
-        //i == 0 means this is the header line
-        if (i == 0)
-            console.log(line); //we can just print it out
-        else {
-            //separates the line by comma, stores it in array
-            var row: any = line.split(',');
-            //converts all values in the array from strings to numbers
-            row = row.map(function(val: string) {
-                return parseFloat(val);
-            });
-            //stores the row in our vals array
-            vals.push(row);
-        }
-        i++;
-    });
-
-    //process the values
-    read.on("close", function() {
-        processVals(vals);
-    });
+    processVals(vals);
 }
 
 /**

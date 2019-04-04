@@ -80,10 +80,9 @@ function label(data,  enough,rows, most,cohen)
   --Grab std from last line and multiply by .3 --
   cohen = all.sd*Lean.label.cohen 
   --Write to standard error --
-  fyi("\n-- ".. data.name[c] .. "----------")
 
   --Filter 3 --
-  
+  fyi("\n-- ".. data.name[c] .. "----------")
   cuts(c,1,#data.rows,"|.. ") 
   print(cat(data.name,", ") .. ",!klass" )
   dump(rows)
