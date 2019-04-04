@@ -13,7 +13,7 @@ var fs = require("fs");
 function readInput(dataTable) {
     var data = fs.readFileSync('/dev/stdin', 'utf8').split("\n");
     dataTable.attributes = data[0].split(",");
-    dataTable.dataSet(data.slice(1, data.length - 1).map(function (line) { return line.split(",").map(Number); }));
+    dataTable.dataSet(data.slice(1, data.length - 1).map(function (line) { return line.split(",").map(String); }));
 }
 //Table class to hold all of the info from the csv
 var table = /** @class */ (function () {
@@ -27,13 +27,12 @@ var table = /** @class */ (function () {
     table.prototype.dataSet = function (newData) {
         console.log("setting");
         this.data = newData;
-        this.cols = this.attributes.length - 1;
+        this.cols = this.data[0].length - 1;
         this.c = this.cols - 1;
         this.rows = this.data.length - 1;
         this.enough = Math.pow(this.rows, this.enough);
     };
     table.prototype.print = function () {
-        console.log("Table: " + this.data);
         console.log("Cols: " + this.cols);
         console.log("Rows: " + this.rows);
         console.log("C: " + this.c);
@@ -53,7 +52,9 @@ csv.print();
 */
 function cuts(input, low, high, pre) {
     //Concatinate the preface with the last value 
-    var tbPrint = pre.concat(String(input.data[low][input.c]));
+    console.log(input.data[low]);
+    console.log(low);
+    var tbPrint = pre.concat(input.data[low][input.c]);
     process.stderr.write(tbPrint);
     if (high - low > input.enough) {
         //Grab cut from the last column of the high row
@@ -72,7 +73,6 @@ function mark(input, low, high) {
         input.data[i][input.cols + 1] = b;
     }
 }
-//FIGURE OUT WHAT MOST IS!!!
 function band(input, low, high) {
     console.log("band");
     if (low == 1) {
@@ -82,5 +82,12 @@ function band(input, low, high) {
         return String(input.data[low][input.c]).concat("..", String(input.data[high][input.c]));
     }
 }
-process.stderr.write("\n-- ".concat(String(csv.data[0][csv.c]), "----------"));
+console.log("\n-- ".concat(String(csv.data[0][csv.c]), "----------"));
 cuts(csv, 1, csv.rows, "|.. ");
+console.log(String(csv.cols).concat(", ", ",!klass"));
+for (var i = 0; i < csv.rows; i++) {
+    for (var j = 0; j < csv.cols - 1; j++) {
+        process.stdout.write(csv.data[i][j] + ",");
+    }
+    process.stdout.write(csv.data[i][j] + "\n");
+}
