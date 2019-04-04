@@ -1,6 +1,9 @@
 import * as fs from "fs";
 
 /**
+ * @file sortlastcol.ts
+ * @author Daniel Curtis Mills
+ * 
  * This filter in the pipe reads in comma-separated values from standard input.
  * It reads each line, not including the header line, then parses them as
  * comma-separated values, and stores the values in a 2D array. It then sorts
@@ -14,9 +17,6 @@ import * as fs from "fs";
  * -m = mergeSort
  * -b = bubbleSort
  * -s = selectionSort
- * 
- * @author Daniel Curtis Mills
- *         dcmills2@ncsu.edu
  */
 
 // start by reading the values

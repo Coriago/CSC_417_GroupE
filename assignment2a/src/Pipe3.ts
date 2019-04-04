@@ -40,18 +40,30 @@ class table {
         this.enough = 0.5;
     }
 
+    //Functin to set the data
     dataSet(newData: number[][]){
+        console.log("setting");
         this.data = newData;
-        this.cols = this.data[0].length - 1;
+        this.cols = this.attributes.length - 1;
         this.c = this.cols - 1;
         this.rows = this.data.length - 1;
         this.enough = this.rows**this.enough;
+    }
+
+    print() {
+        console.log("Table: " + this.data);
+        console.log("Cols: " + this.cols);
+        console.log("Rows: " + this.rows);
+        console.log("C: " + this.c);
+        console.log("Enough: " + this.enough);
+        console.log("Attributes: " + this.attributes);
     }
 }
 //Create an instance of table
 var csv = new table();
 //Parse the CSV file from standard in and move the data over to the data object
 readInput(csv);
+csv.print();
 
 /*  Step 3:
     Peform recursive cuts and sort data into best and the rest
