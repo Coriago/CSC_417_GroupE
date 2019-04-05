@@ -1,31 +1,20 @@
 "use strict";
-exports.__esModule = true;
 /*  Pipe 3:
     This pipe will cut the data into a best and worst bucket....
 */
-//Import the readline module for reading stdin
-var Papa = require("papaparse");
+exports.__esModule = true;
 /*  Step 1:
-    Read from standard input
-
-    Might not be needed
-
-//Import the readline module for reading stdin
-import * as readline from 'readline';
-//Set up an interface to hold the stdin and stdout
-let rl = readline.createInterface({
-    input: process.stdin,
-    output: process.stdout
-});
-rl.on('line', (input: string) => {
-
-    csv.data[csv.rows] = ;
-})
+    Convert the csv to a readable file, specifically an object
 */
-/*  Step 2:
-    Use a library to convert the csv to a readable file,
-    specifically an object
-*/
+/**
+ * This code is taken from Daniel Mills
+ */
+var fs = require("fs");
+function readInput(dataTable) {
+    var data = fs.readFileSync('/dev/stdin', 'utf8').split("\n");
+    dataTable.attributes = data[0].split(",");
+    dataTable.dataSet(data.slice(1, data.length - 1).map(function (line) { return line.split(",").map(String); }));
+}
 //Table class to hold all of the info from the csv
 var table = /** @class */ (function () {
     //Constructor
@@ -34,42 +23,37 @@ var table = /** @class */ (function () {
         this.rows = 0;
         this.enough = 0.5;
     }
-    //Set number of cols
-    table.prototype.colSet = function () {
+    //Functin to set the data
+    table.prototype.dataSet = function (newData) {
+        console.log("setting");
+        this.data = newData;
         this.cols = this.data[0].length - 1;
         this.c = this.cols - 1;
-    };
-    //Set the number of rows
-    table.prototype.rowSet = function () {
         this.rows = this.data.length - 1;
+        this.enough = Math.pow(this.rows, this.enough);
     };
-    //Calculate Enough
-    table.prototype.enoughCalc = function () {
-        this.enough = this.rows ^ this.enough;
+    table.prototype.print = function () {
+        console.log("Cols: " + this.cols);
+        console.log("Rows: " + this.rows);
+        console.log("C: " + this.c);
+        console.log("Enough: " + this.enough);
+        console.log("Attributes: " + this.attributes);
     };
     return table;
 }());
 //Create an instance of table
 var csv = new table();
-//Parse the CSV file from standard in
-var parsed = Papa.parse(process.stdin);
-//Move the data over to the data object
-csv.data = parsed.data;
-//Calculate the number of columns 
-csv.colSet();
-console.log(csv.cols);
-//Calculate the number of columns
-csv.rowSet();
-console.log(csv.rows);
-//Calculate enough
-csv.enoughCalc();
-console.log(csv.enough);
+//Parse the CSV file from standard in and move the data over to the data object
+readInput(csv);
+csv.print();
 /*  Step 3:
     Peform recursive cuts and sort data into best and the rest
     using the argmin values attached at the end of each line
 */
 function cuts(input, low, high, pre) {
     //Concatinate the preface with the last value 
+    console.log(input.data[low]);
+    console.log(low);
     var tbPrint = pre.concat(input.data[low][input.c]);
     process.stderr.write(tbPrint);
     if (high - low > input.enough) {
@@ -89,15 +73,21 @@ function mark(input, low, high) {
         input.data[i][input.cols + 1] = b;
     }
 }
-//FIGURE OUT WHAT MOST IS!!!
 function band(input, low, high) {
     console.log("band");
     if (low == 1) {
-        return ("..").concat(input.data[high][input.c]);
+        return ("..").concat(String(input.data[high][input.c]));
     }
     else {
-        return String(input.data[low][input.c]).concat("..", input.data[high][input.c]);
+        return String(input.data[low][input.c]).concat("..", String(input.data[high][input.c]));
     }
 }
-process.stderr.write("\n-- ".concat(csv.data[0][csv.c], "----------"));
+console.log("\n-- ".concat(String(csv.data[0][csv.c]), "----------"));
 cuts(csv, 1, csv.rows, "|.. ");
+console.log(String(csv.cols).concat(", ", ",!klass"));
+for (var i = 0; i < csv.rows; i++) {
+    for (var j = 0; j < csv.cols - 1; j++) {
+        process.stdout.write(csv.data[i][j] + ",");
+    }
+    process.stdout.write(csv.data[i][j] + "\n");
+}

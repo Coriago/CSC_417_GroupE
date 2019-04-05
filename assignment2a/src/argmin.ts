@@ -12,7 +12,7 @@ var numRows:number;
 var lastCol:number[]; 
 
 // allStdDevs[ i ] stores the standard deviation of elements in 
-// "lastCol" from i to "numRows".
+// "lastCol" from i to "naumRows".
 var allStdDevs:number[]; 
 
 var minBinSize:number;

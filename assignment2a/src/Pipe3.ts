@@ -15,7 +15,7 @@ function readInput(dataTable: table) {
     var data:Array<String> = fs.readFileSync( '/dev/stdin', 'utf8' ).split( "\n" );
     dataTable.attributes = data[ 0 ].split( "," );
     dataTable.dataSet(data.slice( 1, data.length - 1).map( 
-        line => line.split(",").map(Number)
+        line => line.split(",").map(String)
     ));
 }
 
@@ -29,9 +29,10 @@ class table {
     enough: number;
     //Filed for c
     c: number;
+    //Headers of the table
     attributes: Array<String>;
     //Array to store the data from the CSV file
-    data: any[][];
+    data: string[][];
 
     //Constructor
     constructor() {
@@ -40,18 +41,29 @@ class table {
         this.enough = 0.5;
     }
 
-    dataSet(newData: number[][]){
+    //Functin to set the data
+    dataSet(newData: string[][]){
+        console.log("setting");
         this.data = newData;
         this.cols = this.data[0].length - 1;
         this.c = this.cols - 1;
         this.rows = this.data.length - 1;
         this.enough = this.rows**this.enough;
     }
+
+    print() {
+        console.log("Cols: " + this.cols);
+        console.log("Rows: " + this.rows);
+        console.log("C: " + this.c);
+        console.log("Enough: " + this.enough);
+        console.log("Attributes: " + this.attributes);
+    }
 }
 //Create an instance of table
 var csv = new table();
 //Parse the CSV file from standard in and move the data over to the data object
 readInput(csv);
+csv.print();
 
 /*  Step 3:
     Peform recursive cuts and sort data into best and the rest
@@ -59,7 +71,9 @@ readInput(csv);
 */
 function cuts(input: table, low: number, high: number, pre: string) {
     //Concatinate the preface with the last value 
-    let tbPrint:string = pre.concat(String(input.data[low][input.c]));
+    console.log(input.data[low]);
+    console.log(low);
+    let tbPrint:string = pre.concat(input.data[low][input.c]);
     process.stderr.write(tbPrint);
     if(high - low > input.enough) {
         //Grab cut from the last column of the high row
@@ -80,7 +94,6 @@ function mark(input: table, low: number, high: number) {
     }
 }
 
-//FIGURE OUT WHAT MOST IS!!!
 function band(input: table, low: number, high: number) {
     console.log("band");
     if(low == 1) {
@@ -89,7 +102,12 @@ function band(input: table, low: number, high: number) {
         return String(input.data[low][input.c]).concat("..", String(input.data[high][input.c]));
     }
 }
-
-process.stderr.write("\n-- ".concat(String(csv.data[0][csv.c]), "----------"));
+console.log("\n-- ".concat(String(csv.data[0][csv.c]), "----------"));
 cuts(csv, 1, csv.rows, "|.. ");
-
+console.log(String(csv.cols).concat(", ", ",!klass"));
+for( var i = 0; i < csv.rows; i++) {
+    for( var j = 0; j < csv.cols - 1; j++) {
+        process.stdout.write(csv.data[i][j] + ",");
+    }
+    process.stdout.write(csv.data[i][j] + "\n");
+}
