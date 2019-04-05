@@ -1,6 +1,10 @@
-import * as readline from "readline";
+import * as fs from "fs";
+import stream = require("stream");
 
 /**
+ * @file sortlastcol.ts
+ * @author Daniel Curtis Mills
+ * 
  * This filter in the pipe reads in comma-separated values from standard input.
  * It reads each line, not including the header line, then parses them as
  * comma-separated values, and stores the values in a 2D array. It then sorts
@@ -23,40 +27,15 @@ readVals();
  * Reads comma separated values from standard input
  * and stores it in a 2D array
  */
-function readVals(): any {
+function readVals() {
+    var data: string[] = fs.readFileSync('/dev/stdin', 'utf8').split("\n");
+    //prints the header
+    console.log(data[0]);
+    var vals: number[][] = data.slice(1, data.length).map( 
+        line => line.split(",").map(Number)
+    );
 
-    //reads lines from standard input
-    var read = readline.createInterface({
-        input: process.stdin
-    });
-
-    //array stores each line as a whole string
-    var rows: string[] = [];
-    //2d array that stores each row of nums
-    var vals: number[][] = [];
-    //keeps track of how many lines we've read
-    var i: number = 0;
-    read.on("line", function(line) {
-        //i == 0 means this is the header line
-        if (i == 0)
-            console.log(line); //we can just print it out
-        else {
-            //separates the line by comma, stores it in array
-            var row: any = line.split(',');
-            //converts all values in the array from strings to numbers
-            row = row.map(function(val: string) {
-                return parseFloat(val);
-            });
-            //stores the row in our vals array
-            vals.push(row);
-        }
-        i++;
-    });
-
-    //process the values
-    read.on("close", function() {
-        processVals(vals);
-    });
+    processVals(vals);
 }
 
 /**
@@ -72,13 +51,15 @@ function processVals(vals: number[][]): void {
         argsErr();
     //-m or no args at all means mergeSort
     if (args.length == 2 || args[2] === "-m")
-        mergeSort(vals, vals.length);
+        mergeSort(vals);
     //-b means bubbleSort
     else if (args[2] === "-b")
-        bubbleSort(vals, vals.length);
+        bubbleSort(vals);
     //-s means selection sort
     else if (args[2] === "-s")
-        selectionSort(vals, vals.length);
+        selectionSort(vals);
+    else if (args[2] === "-bogo")
+        bogoSort(vals);
     //anything else is an invalid arg
     else
         argsErr();
@@ -104,7 +85,7 @@ function argsErr(): void {
  * @param vals the 2D array we are sorting
  * @param n the number of rows in the vals array
  */
-function mergeSort(vals: number[][], n: number): void {
+function mergeSort(vals: number[][], n: number = vals.length): void {
     //base case: only one element
     if (n < 2)
         return;
@@ -153,9 +134,9 @@ function merge(vals: number[][], left: number[][], right: number[][],
  * Sorts by switching elements of the array if they are out of order
  * Sorts rows by their last column
  * @param vals the 2D array we are sorting
- * @param n number of elements in vals array
  */
-function bubbleSort(vals: number[][], n: number): void {
+function bubbleSort(vals: number[][]): void {
+    var n: number = vals.length;
     for (var i: number = 0; i < n - 1; i++)
         for (var j: number = 0; j < n - i - 1; j++)
             //compares last col of row *j* with last col of row *j+1*
@@ -171,9 +152,9 @@ function bubbleSort(vals: number[][], n: number): void {
  * Sorts by finding min value and bringing it to the front
  * Sorts rows by their last column
  * @param vals The 2D array we are sorting
- * @param n number of elements in vals array
  */
-function selectionSort(vals: number[][], n: number): void {
+function selectionSort(vals: number[][]): void {
+    var n: number = vals.length;
     for (var i: number = 0; i < n - 1; i++) {
         var min: number = i;
         for (var j: number = i + 1; j < n; j++)
@@ -186,6 +167,39 @@ function selectionSort(vals: number[][], n: number): void {
         vals[min] = vals[i];
         vals[i] = temp;
     }
+}
+
+/**
+ * Random sorting algorithm. Sorts rows of 2D array
+ * by the value in their last column
+ * @param vals The 2D array being sorted
+ */
+function bogoSort(vals: number[][]): void {
+    var n = vals.length;
+    while (!isSorted(vals)) {
+        //swaps every element with another random element
+        for (var i = 0; i < n; i++) {
+            var j = Math.floor(Math.random() * i);
+            var temp = vals[i];
+            vals[i] = vals[j];
+            vals[j] = temp;
+        }
+    }
+}
+
+/**
+ * Determines whether or not the vals array is sorted.
+ * Tests based on the value in the last column of each row
+ * @param vals The 2D array being tested
+ * @returns true if the array is sorted
+ */
+function isSorted(vals: number[][]): boolean {
+    var n = vals.length;
+    for (var i = 1; i < n; i++)
+        //compares last col of row *i* with last col of row *i-1*
+        if (vals[i][vals[i].length - 1] < vals[i - 1][vals[i - 1].length - 1])
+            return false;
+    return true;
 }
 
 /**

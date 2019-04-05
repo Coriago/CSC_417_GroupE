@@ -34,7 +34,7 @@ var numRows:number;
 var lastCol:number[]; 
 
 // allStdDevs[ i ] stores the standard deviation of elements in 
-// "lastCol" from i to "numRows".
+// "lastCol" from i to "naumRows".
 var allStdDevs:number[]; 
 
 // Minimum number of records allowed in a partition of the dataset.
