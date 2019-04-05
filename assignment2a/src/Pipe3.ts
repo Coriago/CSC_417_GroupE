@@ -115,7 +115,7 @@ cuts(csv, 0, csv.rows, "|.. ");
 for( var j = 0; j < csv.cols; j++) {
     process.stdout.write(csv.attributes[j] + ",");
 }
-process.stdout.write(csv.attributes[j] + ",!klass" + "\n");
+process.stdout.write(csv.attributes[j] + ", !klass" + "\n");
 //For loop to print the table to standard out
 for( var i = 0; i < csv.rows; i++) {
     for( var j = 0; j < csv.cols; j++) {
