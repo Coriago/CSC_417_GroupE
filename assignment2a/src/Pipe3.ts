@@ -112,7 +112,7 @@ process.stderr.write("\n-- ".concat(String(csv.attributes[csv.c]), "----------\n
 //Divide the data into best and the rest
 cuts(csv, 0, csv.rows, "|.. ");
 //For loop to print the headers of the table to standard out
-for( var j = 0; j < csv.cols; j++) {
+for( var j = 0; j < csv.c; j++) {
     process.stdout.write(csv.attributes[j] + ",");
 }
 process.stdout.write(csv.attributes[j] + ", !klass" + "\n");
