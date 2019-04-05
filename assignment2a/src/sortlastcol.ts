@@ -31,7 +31,7 @@ function readVals() {
     var data: string[] = fs.readFileSync('/dev/stdin', 'utf8').split("\n");
     //prints the header
     console.log(data[0]);
-    var vals: number[][] = data.slice(1, data.length).map( 
+    var vals: number[][] = data.slice(1, data.length - 1).map( 
         line => line.split(",").map(Number)
     );
 
