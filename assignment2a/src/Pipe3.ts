@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 import * as fs from "fs";
 
 //Table class to hold all of the info from the csv
