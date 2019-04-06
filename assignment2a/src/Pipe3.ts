@@ -74,7 +74,7 @@ function cuts(input: table, low: number, high: number, pre: string) {
             return cuts(input, cut + 1, high, pre.concat("|.."));
         }
     }
-    mark(input, 0, low - 1);
+    mark(input, 1, low - 1);
     mark(input, low, high);
 }
 
