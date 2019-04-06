@@ -76,6 +76,7 @@ function argsErr(): void {
     process.stderr.write("-m: merge sort (default)\n");
     process.stderr.write("-b: bubble sort\n");
     process.stderr.write("-s: selection sort\n");
+    process.stderr.write("-bogo: bogo sort\n");
     process.exit(-1);
 }
 
