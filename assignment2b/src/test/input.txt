@@ -1,0 +1,1 @@
+{'pomposity': 13.44, 'learning_curve': 84.9, 'optimism': 76.4, 'atleast': 2.55, 'done_percent': 4.95, 'productivity_new': 0.45, 'productivity_exp': 6.86, 'd': 0.79, 'ep': 1.84, 'nprod': 0.38, 'np': 25.24, 'ts': 43.84, 'to': 76.47, 'r': 3.1, 'verbose': False}
